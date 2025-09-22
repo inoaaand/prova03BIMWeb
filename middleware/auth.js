@@ -1,17 +1,19 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-const secret = "segredoSuperSeguro";
+function auth(req, res) {
+    const autHeader = req.headers("authorization");
 
-export default function auth(req, res, next) {
-  const token = req.headers["authorization"];
-  if (!token) {
-    return res.status(403).json({ message: "Token não fornecido!" });
-  }
+    if (autHeader) return res.status(401).json({ message: "Token não fornecido" });
 
-  jwt.verify(token.split(" ")[1], secret, (err, decoded) => {
-    if (err) return res.status(401).json({ message: "Token inválido!" });
+    const token = autHeader.split("")(1);
 
-    req.userId = decoded.id;
-    next();
-  });
-}
+    try {
+        const decode = jwt.verify(token, '123');
+        req.user = decode;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: "Token inválido ou expirado" });
+    }
+};
+
+export default auth;

@@ -1,10 +1,9 @@
-import db from "../firebase.js";
+import db from "../utils/db.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
 const secret = "segredoSuperSeguro";
-
 
 export const registerUser = async (req, res) => {
   try {
@@ -33,6 +32,16 @@ export const registerUser = async (req, res) => {
   }
 };
 
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
+app.post('/users', (req, res) => {
+  const userData = req.body; 
+  console.log(userData); 
+  res.send('Usuário recebido!');
+});
 
 export const loginUser = async (req, res) => {
   try {
@@ -72,7 +81,6 @@ export const getUsers = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 
 export const updateUser = async (req, res) => {

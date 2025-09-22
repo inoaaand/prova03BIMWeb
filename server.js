@@ -1,9 +1,15 @@
-const express = require('express');
+
+import express from 'express';
+import rotasAut from './routes/auth.js';
+import rotasUser from './routes/users.js';
 
 const app = express();
-const userRoutes = require('./routes/users');
 
-app.use(express.json()); 
-app.use('/users', userRoutes); 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.use(express.json());
+
+app.use("/", rotasAut);
+app.use("/", rotasUser);
+
+app.listen(3000, () => {
+    console.log("Servidor rodando na porta 3000");
+})

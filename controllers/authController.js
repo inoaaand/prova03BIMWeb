@@ -5,10 +5,9 @@ import authMiddleware from "../middleware/auth.js";
 
 const router = Router();
 
-
 const users = [];
 
-router.post("/register", async (req, res) => {
+router.post("/cadastrar", async (req, res) => {
     const { username, password } = req.body;
 
     const userExist = users.find((u) => u.username === username);
@@ -35,7 +34,7 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({ message: "Senha inválida!" })
     }
 
-    const token = jwt.sign({ username }, "secreta321", { expiresIn: "1h" });
+    const token = jwt.sign({ username }, "321", { expiresIn: "1h" });
     res.json({ token });
 
     router.get("/profile", authMiddleware, (req, res) =>{
