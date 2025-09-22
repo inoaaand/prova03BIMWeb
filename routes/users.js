@@ -1,39 +1,22 @@
-import { Router } from "express";
-import { obterUsuarios, adicionarUsuario, atualizarUsuario, removerUsuario } from "../dados/usuarios.js";
+import express from "express";
+import {
+  registerUser,
+  loginUser,
+  getUsers,
+  updateUser,
+  deleteUser
+} from "../controllers/userController.js";
 
-const router = Router();
+import auth from "../middleware/auth.js";
 
-router.post("/usuarios", (req, res) => {
-  const { nome, cpf, telefone, email, matricula } = req.body;
-  if (!nome || !cpf || !telefone || !email || !matricula) {
-    return res.status(400).json({ message: "Todos os campos são obrigatórios" });
-  }
-  const novo = adicionarUsuario({ nome, cpf, telefone, email, matricula });
-  res.json(novo);
-});
+const router = express.Router();
 
+router.post("/register", registerUser);
+router.post("/login", loginUser);
 
-router.get("/usuarios", (req, res) => {
-  res.json(obterUsuarios());
-});
-
-router.put("/usuarios/:id", (req, res) => {
-  const { id } = req.params;
-  const atualizado = atualizarUsuario(id, req.body);
-  if (!atualizado) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  }
-  res.json(atualizado);
-});
-
-
-router.delete("/usuarios/:id", (req, res) => {
-  const { id } = req.params;
-  const removido = removerUsuario(id);
-  if (!removido) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  }
-  res.json(removido);
-});
+router.get("/", auth, getUsers);
+router.get("/:id", auth, getUserById);
+router.put("/:id", auth, updateUser);
+router.delete("/:id", auth, deleteUser);
 
 export default router;

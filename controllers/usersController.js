@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
-const secret = "segredoSuperSeguro"; 
+const secret = "segredoSuperSeguro";
+
 
 export const registerUser = async (req, res) => {
   try {
@@ -32,6 +33,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
+
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -59,7 +61,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
 export const getUsers = async (req, res) => {
   try {
     const usersRef = db.collection("users");
@@ -72,3 +73,26 @@ export const getUsers = async (req, res) => {
   }
 };
 
+
+
+export const updateUser = async (req, res) => {
+  try {
+    const userRef = db.collection("users").doc(req.params.id);
+    await userRef.update(req.body);
+
+    res.json({ message: "Usuário atualizado!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userRef = db.collection("users").doc(req.params.id);
+    await userRef.delete();
+
+    res.json({ message: "Usuário deletado!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

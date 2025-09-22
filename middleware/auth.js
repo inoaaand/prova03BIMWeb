@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const secret = "segredo";
+const secret = "segredoSuperSeguro";
 
 export default function auth(req, res, next) {
   const token = req.headers["authorization"];
