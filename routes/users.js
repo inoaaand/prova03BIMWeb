@@ -41,7 +41,7 @@ rotas.put('/:id', (req, res) => {
 });
 
 rotas.delete('/:id', (req, res) => {
-    let usuarios = lerArquivo();
+    let usuarios = readFile();
 
     const id = parseInt(req.params.id);
 

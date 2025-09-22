@@ -19,6 +19,8 @@ function lerArquivo() {
     }
 }
 
+const usuarios = lerArquivo();
+
 function salvar(usuarios) {
     fs.writeFileSync(filePath, JSON.stringify(usuarios, null, 2));
 }
@@ -26,11 +28,11 @@ function salvar(usuarios) {
 const router = Router();
 const filePath = path.join(__dirname, '..', 'utils', 'db.json');
 
-const usuarios = lerArquivo();
 
-router.post("/cadastro", async (req, res) => {
 
-    const {nome, email, senha} = req.body;
+router.post("/register", async (req, res) => {
+
+    const { nome, email, senha} = req.body;
 
     const usuarioExiste = usuarios.find((u) => u.email === email);
 
